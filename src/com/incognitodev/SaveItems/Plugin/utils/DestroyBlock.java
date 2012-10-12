@@ -27,7 +27,7 @@ public class DestroyBlock implements Runnable{
 		else if (counter == 5)
 		{
 			player.sendMessage("your stuff is gone");
-			chest.setType(Material.AIR);
+			chest.breakNaturally();
 			StuffLostEvent stufflost = new StuffLostEvent(player,chest);
 			parent.getServer().getPluginManager().callEvent(stufflost);
 		}

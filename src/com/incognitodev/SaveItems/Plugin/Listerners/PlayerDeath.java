@@ -45,7 +45,7 @@ public class PlayerDeath implements Listener{
 	  chest.getInventory().addItem(i);
 	  i.setTypeId(0);
 	  }
-	  ChestList.chests.put(chester, player.getDisplayName());
+	  ChestList.chests.put(chester.getState(), player.getDisplayName());
 	  if(tasks.containsKey(player))
 	  {
 		  int taskID = (int)tasks.get(player);
@@ -68,14 +68,8 @@ public class PlayerDeath implements Listener{
 		  if(e.getClickedBlock().getType() == Material.CHEST)
 		  {
 		  Block chest = e.getClickedBlock();
-		  String player= ChestList.chests.get(chest);
-		  if(!(CheckChestSpawn.getBlockMetadata(e.getPlayer(),parent) == e.getClickedBlock()))
-		  {
-			  e.getPlayer().playNote(e.getPlayer().getLocation(), Instrument.PIANO, Note.natural(1, Tone.C));
-			  e.getPlayer().sendMessage("Not Your Chest");
-			  e.setCancelled(true);
-		  }
-		  else if(player!=null)
+		  String player= ChestList.chests.get(chest.getState());
+		   if(player!=null)
 		  {
 			  if(!player.equals(e.getPlayer().getDisplayName()))
 			  {
@@ -91,7 +85,7 @@ public class PlayerDeath implements Listener{
   public void shouldRemoveChest(StuffLostEvent e)
   {
 	  Block chesti = e.getChest();
-	  chesti.setType(Material.AIR);
+	  chesti.breakNaturally();
 	  int taskID = tasks.get(e.getPlayer());
 	  parent.getServer().getScheduler().cancelTask(taskID);
 	  tasks.remove(e.getPlayer());

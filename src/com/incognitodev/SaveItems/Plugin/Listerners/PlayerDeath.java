@@ -23,6 +23,7 @@ import com.incognitodev.SaveItems.Plugin.ChestList.ChestList;
 import com.incognitodev.SaveItems.Plugin.utils.CheckChestSpawn;
 import com.incognitodev.SaveItems.Plugin.utils.DestroyBlock;
 import com.incognitodev.SaveItems.Plugin.utils.StuffLostEvent;
+import com.incognitodev.SaveItems.Plugin.utils.TurretModLoader;
 
 public class PlayerDeath implements Listener{
 	SaveItemsPlugin parent;
@@ -99,5 +100,23 @@ public class PlayerDeath implements Listener{
   {
 	this.parent = parent;
 	parent.log.info("here we are");
+  }
+  public void onDisable()
+  {
+	  try {
+		TurretModLoader.save(tasks, parent.getDataFolder().getPath()+"tasks.bin");
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+  }
+  public void onEnable()
+  {
+	  try {
+			tasks = (HashMap<Player, Integer>) TurretModLoader.load(parent.getDataFolder().getPath()+"tasks.bin");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
   }
 }
